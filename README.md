@@ -1,39 +1,39 @@
-# TCC — Refactored Pipeline
+# Pipeline baseado em aprendizado profundo para registro de imagens médicas com preservação de volumes tumorais
 
-Deformable brain-MRI registration with tumor-volume preservation (NODEO, VoxelMorph, TransMorph, each ±VP) on Yale Brain Mets.
+Registro deformável de RM cerebral com preservação de volume tumoral (NODEO, VoxelMorph, TransMorph, cada um ±VP) no Yale Brain Mets.
 
-![Pipeline flowchart](imgs/pipeline_flowchart.png)
+![Fluxograma do pipeline](imgs/pipeline_flowchart.png)
 
-## Layout
+## Estrutura
 
-- `common/`: shared losses/metrics/energy
+- `common/`: perdas/métricas/energia compartilhadas
 - `phase1_filter/` → `phase2_preprocess/` → `phase3_inpaint/` → `phase4_train_eval/models/{transmorph,voxelmorph,nodeo}/`.
-- `phase5_results/`: post-pipeline. Plots results, builds tables/figures. Not a pipeline step — the pipeline itself is the four etapas above.
+- `phase5_results/`: pós-pipeline. Plota resultados, gera tabelas/figuras. Não é uma etapa do pipeline — o pipeline em si são as quatro etapas acima.
 
-Run order + commands: see **RUNBOOK.md**.
+Ordem de execução + comandos: ver **RUNBOOK.md**.
 
-## Environments
+## Ambientes
 
-In the research, the miniconda tool was used to manage Python environments.
+Na pesquisa, a ferramenta miniconda foi usada para gerenciar os ambientes Python.
 
-- `transmorph` — all 3 registration models + atlas/ANTs prep. `torch==2.10.0+cu128`.
-  Install: `pip install -r requirements.txt` (+ voxelmorph step below).
+- `transmorph` — os 3 modelos de registro + preparo do atlas/ANTs. `torch==2.10.0+cu128`.
+  Instalação: `pip install -r requirements.txt` (+ etapa do voxelmorph abaixo).
 - `fastsurfer` — FastSurfer, FastSurfer-LIT, nnU-Net (BraTS-METS). `nnunetv2`, `monai`.
-  Install: `pip install -r requirements-fastsurfer.txt` (+ clone FastSurfer below).
-Full pip freezes of the reference machine in `env_snapshots/`.
+  Instalação: `pip install -r requirements-fastsurfer.txt` (+ clone do FastSurfer abaixo).
+Os pip freezes completos da máquina de referência estão em `env_snapshots/`.
 
-## External tools (NOT vendored) — pinned to the versions this work ran on
+## Ferramentas externas (NÃO incluídas no repositório) — fixadas nas versões em que este trabalho rodou
 
-- **FastSurfer** — clone at commit `0b6c508` (`v2.4.2-270-g0b6c508`):
+- **FastSurfer** — clone no commit `0b6c508` (`v2.4.2-270-g0b6c508`):
 
   ```
   git clone https://github.com/Deep-MI/FastSurfer.git
   git -C FastSurfer checkout 0b6c508d36d3ab74c42b4ab3ae9941a5c668508f
   ```
 
-  Place the clone at the repo root (`./FastSurfer/`); needs a FreeSurfer license
-  (`FS_LICENSE`). Passed to scripts via `--fastsurfer-bin FastSurfer/run_fastsurfer.sh`.
-- **FastSurfer-LIT** (`neurolit`) — pinned commit `d23f6d0`, installed by
+  Coloque o clone na raiz do repositório (`./FastSurfer/`); precisa de uma licença FreeSurfer
+  (`FS_LICENSE`). Passada aos scripts via `--fastsurfer-bin FastSurfer/run_fastsurfer.sh`.
+- **FastSurfer-LIT** (`neurolit`) — commit fixado `d23f6d0`, instalado por
   `requirements-fastsurfer.txt`:
   `git+https://github.com/Deep-MI/LIT.git@d23f6d0ca54426e151970133f257eab827961747`.
 - **voxelmorph** (Blackwell/Py3.11):
@@ -44,19 +44,19 @@ Full pip freezes of the reference machine in `env_snapshots/`.
   patch -p1 -d "$d" < third_party_patches/voxelmorph_py311_blackwell.patch
   ```
 
-  Always set `VXM_BACKEND=pytorch`.
-- **nnU-Net weights** — BraTS-METS-2025 winner; download into `brats_local/results` + `brats_local/raw`.
+  Sempre defina `VXM_BACKEND=pytorch`.
+- **Pesos nnU-Net** — vencedor do BraTS-METS-2025; baixe para `brats_local/results` + `brats_local/raw`.
 
-## Blackwell (RTX 50 / sm_120) caveat
+## Ressalva Blackwell (RTX 50 / sm_120)
 
-Needs CUDA-12.8 / `+cu128` PyTorch. Upstream authors' pre-trained weights are incompatible — models were trained from scratch.
+Requer CUDA-12.8 / PyTorch `+cu128`. Os pesos pré-treinados dos autores originais são incompatíveis — os modelos foram treinados do zero.
 
-## Data (not included — supply at repo root)
+## Dados (não incluídos — forneça na raiz do repositório)
 
-- **Dataset/** — Yale Brain Mets Longitudinal . Layout: `Dataset/MRI/<patient>/<exam>/*_{PRE,POST,T2,FLAIR}.nii.gz`.
-- **Atlas/** — MNI ICBM152 2009c nonlinear-symmetric template (`mni_icbm152_nlin_sym_09c_nifti`, T1 + mask), unzipped into `Atlas/`.
-  - Etapa 2.1 (`prepare_mni_template.py` → padded T1, then `prepare_atlas_fastsurfer_seg.py` → FastSurfer atlas seg) derives the products the pipeline reads: `mni_icbm152_t1_padded[_160x192x224].nii.gz`, `fastsurfer_seg_160x192x224.nii.gz`.
-- **brats_local/{results,raw}** — nnU-Net BraTS-METS-2025 weights (see above).
+- **Dataset/** — Yale Brain Mets Longitudinal. Layout: `Dataset/MRI/<patient>/<exam>/*_{PRE,POST,T2,FLAIR}.nii.gz`.
+- **Atlas/** — template MNI ICBM152 2009c não-linear simétrico (`mni_icbm152_nlin_sym_09c_nifti`, T1 + máscara), descompactado em `Atlas/`.
+  - A etapa 2.1 (`prepare_mni_template.py` → T1 com padding, depois `prepare_atlas_fastsurfer_seg.py` → seg do atlas pelo FastSurfer) deriva os produtos que o pipeline lê: `mni_icbm152_t1_padded[_160x192x224].nii.gz`, `fastsurfer_seg_160x192x224.nii.gz`.
+- **brats_local/{results,raw}** — pesos nnU-Net BraTS-METS-2025 (ver acima).
 
-All produced intermediates stay in-repo: FastSurfer brain-seg → `./fastsurfer_output/`, preprocessed npz → `./data/`, tumor masks → `./tumor_masks_conformed/`, checkpoints/results → `./checkpoints*/`, `./result/`.
-All gitignored.
+Todos os intermediários produzidos ficam no repositório: brain-seg do FastSurfer → `./fastsurfer_output/`, npz pré-processado → `./data/`, máscaras tumorais → `./tumor_masks_conformed/`, checkpoints/resultados → `./checkpoints*/`, `./result/`.
+Tudo no gitignore.
