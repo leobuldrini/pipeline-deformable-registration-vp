@@ -1,0 +1,7 @@
+model;mode;vp;n_pairs;dice_mean;dice_std;dice_labels;ndj_pct_mean;ndj_pct_std;stsr_trimmed_mean;stsr_trimmed_std;stsr_n_kept;stsr_n_total;stsr_outliers_hi;tvcf_trimmed_mean;tvcf_trimmed_std;tvcf_n_kept;tvcf_outliers_hi
+affine;N/A;no;36;0,5630;0,1739;23_subcortical;;;;;;;;;;;;
+NODEO;scan-to-scan-intra;no;36;0,5878;0,1572;30_full;0,0024;0,0057;2,0810;1,1982;26;29;3;N/A;N/A;N/A;N/A
+NODEO;scan-to-scan-intra;yes;36;0,5785;0,1692;30_full;0,0096;0,0462;1,0691;0,1045;26;29;3;N/A;N/A;N/A;N/A
+TransMorph;scan-to-scan-intra;no;36;0,6372;0,1710;23_subcortical;2,2319;1,3070;1,4469;0,4687;25;29;4;1,5438;0,3470;6;0
+TransMorph;scan-to-scan-intra;yes;36;0,6386;0,1706;23_subcortical;1,8030;0,8899;1,3651;0,3750;23;29;6;1,6956;0,1591;6;0
+VoxelMorph;scan-to-scan-intra;yes;36;0,6223;0,1712;23_subcortical;0,9436;0,5060;1,1631;0,1678;23;28;5;1,6221;0,2609;6;0

@@ -1,0 +1,7 @@
+model,variant,mode,n_pairs,n_labels,dice_mean,dice_std,dice_trimmed_mean,dice_trimmed_std,baseline_dice_mean,neg_jac_pct_mean,neg_jac_pct_std,stsr_n_raw,stsr_n_trimmed,stsr_trimmed_mean,stsr_trimmed_std,tvcf_eligible,tvcf_n,tvcf_trimmed_mean,tvcf_trimmed_std,lvcr_mean,lvcr_std,notes
+NODEO,baseline,atlas-to-scan,31,30,0.5719,0.1112,0.5719,0.1112,0.4873,0.9718,2.0598,24,,1.8648,1.7127,,,,,,,fastsurfer_seg 30 labels; old format: no trimmed STSR/TVCF/LVCR stats
+NODEO,+VP,atlas-to-scan,31,30,0.5471,0.0991,0.5471,0.0991,0.4873,0.0491,0.103,24,,1.46,0.9017,,,,,,,fastsurfer_seg 30 labels; stsr_type=adapted (not Dong — incomparable); old format: no trimmed STSR/TVCF/LVCR stats
+TransMorph,baseline,atlas-to-scan,31,30,0.5709,0.1143,0.5709,0.1143,0.4873,0.5725,0.1489,24,,1.4751,0.6111,,,,,,,fastsurfer_seg 30 labels; old format: no trimmed STSR/TVCF/LVCR stats
+TransMorph,+VP,atlas-to-scan,31,30,0.5818,0.1056,0.5818,0.1056,0.4873,0.1114,0.0957,24,,1.5796,1.7268,,,,,,,fastsurfer_seg 30 labels; old format: no trimmed STSR/TVCF/LVCR stats
+VoxelMorph,baseline,,,,,,,,,,,,,,,,,,,,,NEVER_RUN or NEEDS_RERUN
+VoxelMorph,+VP,,,,,,,,,,,,,,,,,,,,,NEVER_RUN or NEEDS_RERUN

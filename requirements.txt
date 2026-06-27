@@ -1,0 +1,21 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.10.0+cu128
+torchvision
+# voxelmorph: pip install git+https://github.com/voxelmorph/voxelmorph.git@9bde7a270edfc19ad1c61115cb5ebd82124ee3af
+#   then apply third_party_patches/voxelmorph_py311_blackwell.patch (see README)
+antspyx==0.6.3
+matplotlib==3.10.8
+natsort==8.4.0
+neurite==0.2
+nibabel==3.2.2
+numpy==1.26.4
+nvidia-ml-py==13.590.48
+pandas==3.0.1
+pynvml==13.0.1
+pystrum==0.4
+scikit-image==0.26.0
+scikit-learn==1.8.0
+scipy==1.15.3
+simpleitk==2.5.3
+timm==1.0.25
+tqdm==4.67.3

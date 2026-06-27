@@ -1,0 +1,16 @@
+name: transmorph
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pip
+  - pip:
+    - nibabel
+    - timm
+    - ml-collections
+    - natsort
+    - antspyx
+    - intensity-normalization

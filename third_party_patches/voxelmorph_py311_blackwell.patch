@@ -1,0 +1,27 @@
+# voxelmorph site-packages patch — Python 3.11 + new-torch (Blackwell sm_120) compat
+# Upstream baseline: voxelmorph @ 9bde7a270edfc19ad1c61115cb5ebd82124ee3af
+# Apply from the voxelmorph package parent dir:
+#   d=$(python -c 'import voxelmorph,os;print(os.path.dirname(os.path.dirname(voxelmorph.__file__)))')
+#   git apply -p1 --directory="$d" third_party_patches/voxelmorph_py311_blackwell.patch
+--- a/voxelmorph/torch/layers.py
++++ b/voxelmorph/torch/layers.py
+@@ -15,7 +15,7 @@
+ 
+         # create sampling grid
+         vectors = [torch.arange(0, s) for s in size]
+-        grids = torch.meshgrid(vectors)
++        grids = torch.meshgrid(vectors, indexing='ij')
+         grid = torch.stack(grids)
+         grid = torch.unsqueeze(grid, 0)
+         grid = grid.type(torch.FloatTensor)
+--- a/voxelmorph/torch/modelio.py
++++ b/voxelmorph/torch/modelio.py
+@@ -11,7 +11,7 @@
+     model loading - see LoadableModel.
+     """
+ 
+-    attrs, varargs, varkw, defaults = inspect.getargspec(func)
++    attrs, varargs, varkw, defaults, _, _, _ = inspect.getfullargspec(func)
+ 
+     @functools.wraps(func)
+     def wrapper(self, *args, **kwargs):

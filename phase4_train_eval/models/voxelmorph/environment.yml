@@ -1,0 +1,8 @@
+name: transmorph
+# VoxelMorph (PyTorch) shares the transmorph conda env.
+# Activate with: conda activate transmorph
+#
+# VoxelMorph is installed separately via:
+#   pip install git+https://github.com/voxelmorph/voxelmorph.git@master
+#
+# Must set VXM_BACKEND=pytorch before importing voxelmorph.

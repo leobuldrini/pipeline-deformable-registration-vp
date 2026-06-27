@@ -1,0 +1,27 @@
+# Conda env `fastsurfer` — phases 2 (FastSurfer brain-seg, nnU-Net tumor seg) + 3 (LIT inpaint).
+# Python 3.11.  Install into a fresh conda env:
+#   conda create -n fastsurfer python=3.11 -y && conda activate fastsurfer
+#   pip install -r requirements-fastsurfer.txt
+# NOTE: FastSurfer itself is cloned separately (see README) and brings its own deps;
+#       this file covers the tumor-seg + LIT inpaint stack run by our scripts.
+# Full freeze of the reference machine: env_snapshots/fastsurfer.txt
+
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.10.0+cu128
+torchvision==0.25.0+cu128
+
+# nnU-Net (BraTS-METS tumor segmentation)
+nnunetv2==2.6.4
+
+# FastSurfer-LIT (lesion inpainting, diffusion) — pinned commit
+neurolit @ git+https://github.com/Deep-MI/LIT.git@d23f6d0ca54426e151970133f257eab827961747
+
+monai==1.5.2
+fft-conv-pytorch==1.2.0
+nibabel==5.3.2
+numpy==1.26.4
+scipy==1.15.1
+scikit-image==0.26.0
+simpleitk==2.5.3
+nvidia-ml-py==13.590.48
+tqdm==4.67.3
